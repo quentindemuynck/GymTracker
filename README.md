@@ -66,7 +66,7 @@ directly — one Node process, one port, no CORS to configure:
 npm run install:all
 npm run build:web                 # builds web/dist
 cp server/.env.example server/.env
-# edit server/.env: set a real JWT_SECRET, and CORS_ORIGIN to your domain (or leave default)
+# edit server/.env: set a real JWT_SECRET, NODE_ENV=production, and CORS_ORIGIN to your domain
 npm run seed
 npm run start:server              # serves the API + the built PWA on PORT (default 4000)
 ```
