@@ -19,16 +19,6 @@ export interface ExerciseLog {
   color?: string
 }
 
-export interface ExerciseNote {
-  id: number
-  exercise_id: number
-  user_id: number
-  note: string
-  updated_at: string
-  display_name?: string
-  color?: string
-}
-
 export interface Exercise {
   id: number
   day_id: number
@@ -44,6 +34,9 @@ export interface Exercise {
 
 export interface Day {
   id: number
+  user_id: number | null
+  owner_display_name?: string | null
+  owner_color?: string | null
   name: string
   subtitle: string | null
   emoji: string

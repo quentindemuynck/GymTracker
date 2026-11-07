@@ -7,6 +7,9 @@ import { RegisterPage } from './pages/RegisterPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { DayPage } from './pages/DayPage'
 import { TrackerPage } from './pages/TrackerPage'
+import { TemplatesPage } from './pages/TemplatesPage'
+import { UsersPage } from './pages/UsersPage'
+import { UserProfilePage } from './pages/UserProfilePage'
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth()
@@ -43,6 +46,30 @@ function Shell() {
           element={
             <ProtectedRoute>
               <TrackerPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/templates"
+          element={
+            <ProtectedRoute>
+              <TemplatesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <UsersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users/:id"
+          element={
+            <ProtectedRoute>
+              <UserProfilePage />
             </ProtectedRoute>
           }
         />

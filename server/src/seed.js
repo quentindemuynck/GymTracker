@@ -212,9 +212,11 @@ const QUOTES = [
 ];
 
 function seedDays() {
-  const existing = db.prepare('SELECT COUNT(*) AS c FROM days').get().c;
+  // Templates have user_id = NULL; personal days (owned by real users) don't count here,
+  // so this stays idempotent regardless of how many users have their own days by now.
+  const existing = db.prepare('SELECT COUNT(*) AS c FROM days WHERE user_id IS NULL').get().c;
   if (existing > 0) {
-    console.log('Days already seeded, skipping.');
+    console.log('Template days already seeded, skipping.');
     return;
   }
   const insertDay = db.prepare(
@@ -242,7 +244,7 @@ function seedDays() {
     });
   });
   run();
-  console.log(`Seeded ${DAYS.length} days.`);
+  console.log(`Seeded ${DAYS.length} template days.`);
 }
 
 function seedQuotes() {

@@ -44,6 +44,9 @@ a {
 .muted {
   color: var(--text-muted);
 }
+.grow {
+  flex: 1;
+}
 .small {
   font-size: 0.85rem;
 }
@@ -65,6 +68,15 @@ a {
 .section-title {
   margin: 28px 0 12px;
   font-size: 1.1rem;
+}
+.section-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.section-title-row .section-title {
+  margin-bottom: 0;
 }
 .back-link {
   display: inline-block;
@@ -354,6 +366,18 @@ button.small {
 .add-exercise-btn {
   align-self: flex-start;
 }
+.copy-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.copy-row select {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
 .add-exercise-section {
   margin-top: 14px;
   background: var(--bg-card);
@@ -373,6 +397,11 @@ button.small {
 }
 .day-header h1 {
   margin: 0;
+}
+.user-card-dot {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
 }
 
 /* --- Exercises --- */

@@ -30,6 +30,12 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   const { dayId, date, note } = req.body || {};
+  if (dayId) {
+    const day = db.prepare('SELECT * FROM days WHERE id = ?').get(dayId);
+    if (!day || day.user_id !== req.user.id) {
+      return res.status(403).json({ error: 'You can only log sessions for your own days' });
+    }
+  }
   const info = db
     .prepare(`INSERT INTO sessions (user_id, day_id, date, note) VALUES (?, ?, COALESCE(?, date('now')), ?)`)
     .run(req.user.id, dayId || null, date || null, note || null);

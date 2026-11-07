@@ -1,9 +1,10 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client'
+import { useAuth } from '../context/AuthContext'
 import { QuoteCard } from '../components/QuoteCard'
 import { StatsRow } from '../components/StatsRow'
-import type { Day, User } from '../types'
+import type { Day } from '../types'
 
 interface DayFormValues {
   name: string
@@ -147,8 +148,8 @@ function AddDayCard({ onAdded }: { onAdded: () => void }) {
 }
 
 export function DashboardPage() {
+  const { user } = useAuth()
   const [days, setDays] = useState<Day[]>([])
-  const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
 
   function refresh() {
@@ -156,11 +157,9 @@ export function DashboardPage() {
   }
 
   useEffect(() => {
-    Promise.all([api.get<Day[]>('/days'), api.get<User[]>('/auth/users')])
-      .then(([d, u]) => {
-        setDays(d)
-        setUsers(u)
-      })
+    api
+      .get<Day[]>('/days')
+      .then(setDays)
       .finally(() => setLoading(false))
   }, [])
 
@@ -169,15 +168,25 @@ export function DashboardPage() {
   return (
     <div className="page">
       <QuoteCard />
-      <StatsRow users={users} />
+      {user && <StatsRow users={[user]} />}
 
-      <h2 className="section-title">Your split</h2>
+      <div className="section-title-row">
+        <h2 className="section-title">Your split</h2>
+        <Link to="/templates" className="link-btn">
+          Browse templates
+        </Link>
+      </div>
       <div className="day-grid">
         {days.map((day) => (
           <DayCard key={day.id} day={day} onChanged={refresh} />
         ))}
         <AddDayCard onAdded={refresh} />
       </div>
+      {days.length === 0 && (
+        <p className="muted">
+          Your split is empty — add a day above, or <Link to="/templates">start from a template</Link>.
+        </p>
+      )}
     </div>
   )
 }

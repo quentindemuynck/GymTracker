@@ -19,8 +19,11 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+-- user_id NULL means this is a global template day, not owned by anyone:
+-- visible/copyable by everyone, but not directly editable or loggable.
 CREATE TABLE IF NOT EXISTS days (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   subtitle TEXT,
   emoji TEXT DEFAULT '\u{1F3CB}',
@@ -41,15 +44,6 @@ CREATE TABLE IF NOT EXISTS exercises (
   exercise_order INTEGER NOT NULL DEFAULT 0,
   video_url TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE IF NOT EXISTS exercise_notes (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  exercise_id INTEGER NOT NULL REFERENCES exercises(id) ON DELETE CASCADE,
-  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  note TEXT NOT NULL DEFAULT '',
-  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
-  UNIQUE(exercise_id, user_id)
 );
 
 CREATE TABLE IF NOT EXISTS exercise_logs (
@@ -86,3 +80,13 @@ CREATE INDEX IF NOT EXISTS idx_logs_user ON exercise_logs(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_date ON sessions(date);
 `);
+
+// --- Migrations for databases created before per-user ownership existed ---
+const dayColumns = db.prepare("PRAGMA table_info(days)").all().map((c) => c.name);
+if (!dayColumns.includes('user_id')) {
+  db.exec('ALTER TABLE days ADD COLUMN user_id INTEGER REFERENCES users(id) ON DELETE CASCADE');
+}
+db.exec('CREATE INDEX IF NOT EXISTS idx_days_user ON days(user_id)');
+// exercise_notes (per-viewer notes) is obsolete now that each exercise has a single
+// owner: the owner's note just lives in exercises.cue instead.
+db.exec('DROP TABLE IF EXISTS exercise_notes');

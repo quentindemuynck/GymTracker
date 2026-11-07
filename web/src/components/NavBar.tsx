@@ -18,6 +18,9 @@ export function NavBar() {
         <NavLink to="/tracker" className={({ isActive }) => (isActive ? 'active' : '')}>
           Tracker
         </NavLink>
+        <NavLink to="/users" className={({ isActive }) => (isActive ? 'active' : '')}>
+          Users
+        </NavLink>
       </div>
       <div className="navbar-user">
         <span className="dot" style={{ background: user.color }} />

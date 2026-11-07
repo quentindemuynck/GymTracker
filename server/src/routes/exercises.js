@@ -9,16 +9,23 @@ function findExercise(id) {
   return db.prepare('SELECT * FROM exercises WHERE id = ?').get(id);
 }
 
+function findOwningDay(exercise) {
+  return db.prepare('SELECT * FROM days WHERE id = ?').get(exercise.day_id);
+}
+
 router.get('/:id', (req, res) => {
   const ex = findExercise(req.params.id);
   if (!ex) return res.status(404).json({ error: 'Exercise not found' });
   res.json(ex);
 });
 
-// Shared template fields - either gym buddy can tune the plan itself.
 router.put('/:id', (req, res) => {
   const ex = findExercise(req.params.id);
   if (!ex) return res.status(404).json({ error: 'Exercise not found' });
+  const day = findOwningDay(ex);
+  if (!day || day.user_id !== req.user.id) {
+    return res.status(403).json({ error: 'You can only edit exercises in your own days' });
+  }
   const { name, target_sets, target_reps, default_weight, weight_unit, cue, video_url, exercise_order } =
     req.body || {};
   db.prepare(
@@ -39,40 +46,53 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  const result = db.prepare('DELETE FROM exercises WHERE id = ?').run(req.params.id);
-  if (result.changes === 0) return res.status(404).json({ error: 'Exercise not found' });
+  const ex = findExercise(req.params.id);
+  if (!ex) return res.status(404).json({ error: 'Exercise not found' });
+  const day = findOwningDay(ex);
+  if (!day || day.user_id !== req.user.id) {
+    return res.status(403).json({ error: 'You can only delete exercises in your own days' });
+  }
+  db.prepare('DELETE FROM exercises WHERE id = ?').run(ex.id);
   res.status(204).end();
 });
 
-// --- Personal form-cue notes (per user, only owner may write) ---
+// POST /api/exercises/:id/copy { targetDayId } - copy any exercise (template, a friend's,
+// or your own) into one of YOUR OWN days.
+router.post('/:id/copy', (req, res) => {
+  const source = findExercise(req.params.id);
+  if (!source) return res.status(404).json({ error: 'Exercise not found' });
 
-router.get('/:id/notes', (req, res) => {
-  const notes = db
+  const { targetDayId } = req.body || {};
+  if (!targetDayId) return res.status(400).json({ error: 'targetDayId is required' });
+  const targetDay = db.prepare('SELECT * FROM days WHERE id = ?').get(targetDayId);
+  if (!targetDay) return res.status(404).json({ error: 'Target day not found' });
+  if (targetDay.user_id !== req.user.id) {
+    return res.status(403).json({ error: 'You can only copy exercises into your own days' });
+  }
+
+  const maxOrder = db
+    .prepare('SELECT COALESCE(MAX(exercise_order), -1) AS m FROM exercises WHERE day_id = ?')
+    .get(targetDay.id).m;
+  const info = db
     .prepare(
-      `SELECT en.id, en.note, en.updated_at, u.id AS user_id, u.display_name, u.color
-       FROM exercise_notes en JOIN users u ON u.id = en.user_id
-       WHERE en.exercise_id = ? ORDER BY en.updated_at DESC`
+      `INSERT INTO exercises (day_id, name, target_sets, target_reps, default_weight, weight_unit, cue, exercise_order, video_url)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
-    .all(req.params.id);
-  res.json(notes);
+    .run(
+      targetDay.id,
+      source.name,
+      source.target_sets,
+      source.target_reps,
+      source.default_weight,
+      source.weight_unit,
+      source.cue,
+      maxOrder + 1,
+      source.video_url
+    );
+  res.status(201).json(db.prepare('SELECT * FROM exercises WHERE id = ?').get(info.lastInsertRowid));
 });
 
-router.put('/:id/notes/me', (req, res) => {
-  const { note } = req.body || {};
-  const ex = findExercise(req.params.id);
-  if (!ex) return res.status(404).json({ error: 'Exercise not found' });
-  db.prepare(
-    `INSERT INTO exercise_notes (exercise_id, user_id, note, updated_at)
-     VALUES (?, ?, ?, datetime('now'))
-     ON CONFLICT(exercise_id, user_id) DO UPDATE SET note = excluded.note, updated_at = datetime('now')`
-  ).run(ex.id, req.user.id, note || '');
-  const mine = db
-    .prepare('SELECT * FROM exercise_notes WHERE exercise_id = ? AND user_id = ?')
-    .get(ex.id, req.user.id);
-  res.json(mine);
-});
-
-// --- Weight/reps logs (per user, only owner may write their own) ---
+// --- Weight/reps logs (only the owner of the exercise may log against it) ---
 
 router.get('/:id/logs', (req, res) => {
   const { userId, limit } = req.query;
@@ -94,6 +114,10 @@ router.get('/:id/logs', (req, res) => {
 router.post('/:id/logs', (req, res) => {
   const ex = findExercise(req.params.id);
   if (!ex) return res.status(404).json({ error: 'Exercise not found' });
+  const day = findOwningDay(ex);
+  if (!day || day.user_id !== req.user.id) {
+    return res.status(403).json({ error: 'You can only log exercises in your own days — copy it to your split first' });
+  }
   const { weight, weight_unit, sets, reps, note, date } = req.body || {};
   const info = db
     .prepare(

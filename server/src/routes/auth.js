@@ -56,7 +56,7 @@ router.get('/me', requireAuth, (req, res) => {
 
 router.get('/users', requireAuth, (req, res) => {
   const users = db.prepare('SELECT id, display_name, color FROM users ORDER BY id').all();
-  res.json(users);
+  res.json(users.map((u) => ({ id: u.id, displayName: u.display_name, color: u.color })));
 });
 
 export default router;
