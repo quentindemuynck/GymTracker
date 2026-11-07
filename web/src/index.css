@@ -216,35 +216,15 @@ button.small {
 
 /* --- Quote --- */
 .quote-card {
-  position: relative;
   background: linear-gradient(135deg, #1b2a24, #171a21);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 18px;
   margin-bottom: 16px;
 }
-.quote-shuffle {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: none;
-  border: none;
-  padding: 4px 8px;
-  font-size: 1.4rem;
-  line-height: 1;
-  color: var(--accent);
-  opacity: 0.8;
-}
-.quote-shuffle:hover {
-  opacity: 1;
-}
-.quote-shuffle:disabled {
-  opacity: 0.4;
-}
 .quote-text {
   font-size: 1.05rem;
   margin: 0;
-  padding-right: 28px;
 }
 .quote-author {
   margin: 8px 0 0;
