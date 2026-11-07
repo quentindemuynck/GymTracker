@@ -32,7 +32,7 @@ export function RegisterPage() {
         <h1>
           <Logo size={32} /> Gym Tracker
         </h1>
-        <p className="muted">Create your account to join the split.</p>
+        <p className="muted">Create your account and build your own split.</p>
         <label>
           Display name
           <input value={displayName} onChange={(e) => setDisplayName(e.target.value)} autoFocus required />

@@ -31,7 +31,7 @@ export function LoginPage() {
         <h1>
           <Logo size={32} /> Gym Tracker
         </h1>
-        <p className="muted">Log in to your shared split.</p>
+        <p className="muted">Log in to your split.</p>
         <label>
           Username
           <input value={username} onChange={(e) => setUsername(e.target.value)} autoFocus required />
