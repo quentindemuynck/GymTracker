@@ -188,6 +188,146 @@ const DAYS = [
   },
 ];
 
+// Generic, widely-known programs — not tied to any specific gym's machines, so they're a
+// reasonable starting point for anyone. Weight is left blank since starting weight is
+// personal; sets/reps follow common published rep ranges for each program style.
+const MORE_DAYS = [
+  {
+    name: 'Full Body A',
+    subtitle: 'Full Body · 3-day beginner program',
+    emoji: '\u{1F4AA}',
+    weekday: null,
+    exercises: [
+      { name: 'Barbell Back Squat', target_sets: 3, target_reps: '5', cue: 'Keep your chest up and drive through your heels.' },
+      { name: 'Barbell Bench Press', target_sets: 3, target_reps: '5', cue: 'Elbows at roughly 45°, bar to mid-chest.' },
+      { name: 'Barbell Bent-Over Row', target_sets: 3, target_reps: '8', cue: 'Flat back, pull to your lower ribs.' },
+      { name: 'Overhead Press', target_sets: 3, target_reps: '8' },
+      { name: 'Plank', target_sets: 3, target_reps: 'failure', cue: 'Hold a straight line from shoulders to ankles.' },
+    ],
+  },
+  {
+    name: 'Full Body B',
+    subtitle: 'Full Body · 3-day beginner program',
+    emoji: '\u{1F4AA}',
+    weekday: null,
+    exercises: [
+      { name: 'Deadlift', target_sets: 3, target_reps: '5', cue: 'Bar close to your shins, drive with your legs, keep your back neutral.' },
+      { name: 'Incline Dumbbell Press', target_sets: 3, target_reps: '8' },
+      { name: 'Pull-Ups (or Lat Pulldown)', target_sets: 3, target_reps: '8' },
+      { name: 'Dumbbell Walking Lunges', target_sets: 3, target_reps: '10' },
+      { name: 'Hanging Leg Raise', target_sets: 3, target_reps: 'failure' },
+    ],
+  },
+  {
+    name: 'Full Body C',
+    subtitle: 'Full Body · 3-day beginner program',
+    emoji: '\u{1F4AA}',
+    weekday: null,
+    exercises: [
+      { name: 'Front Squat', target_sets: 3, target_reps: '5' },
+      { name: 'Push-Ups', target_sets: 3, target_reps: 'failure' },
+      { name: 'Seated Cable Row', target_sets: 3, target_reps: '10' },
+      { name: 'Dumbbell Shoulder Press', target_sets: 3, target_reps: '10' },
+      { name: 'Russian Twists', target_sets: 3, target_reps: '20' },
+    ],
+  },
+  {
+    name: 'Upper Body',
+    subtitle: 'Upper / Lower · 4-day split',
+    emoji: '\u{1F3CB}',
+    weekday: null,
+    exercises: [
+      { name: 'Barbell Bench Press', target_sets: 4, target_reps: '6' },
+      { name: 'Barbell Bent-Over Row', target_sets: 4, target_reps: '6' },
+      { name: 'Overhead Press', target_sets: 3, target_reps: '8' },
+      { name: 'Lat Pulldown', target_sets: 3, target_reps: '10' },
+      { name: 'Barbell Curl', target_sets: 3, target_reps: '10' },
+      { name: 'Tricep Pushdown', target_sets: 3, target_reps: '10' },
+    ],
+  },
+  {
+    name: 'Lower Body',
+    subtitle: 'Upper / Lower · 4-day split',
+    emoji: '\u{1F9BF}',
+    weekday: null,
+    exercises: [
+      { name: 'Barbell Back Squat', target_sets: 4, target_reps: '6' },
+      { name: 'Romanian Deadlift', target_sets: 3, target_reps: '8' },
+      { name: 'Leg Press', target_sets: 3, target_reps: '10' },
+      { name: 'Walking Lunges', target_sets: 3, target_reps: '10' },
+      { name: 'Standing Calf Raise', target_sets: 4, target_reps: '12' },
+      { name: 'Hanging Leg Raise', target_sets: 3, target_reps: 'failure' },
+    ],
+  },
+  {
+    name: 'Chest Day',
+    subtitle: 'Bro Split · 5-day split',
+    emoji: '\u{1FAC2}',
+    weekday: null,
+    exercises: [
+      { name: 'Flat Barbell Bench Press', target_sets: 4, target_reps: '8' },
+      { name: 'Incline Dumbbell Press', target_sets: 3, target_reps: '10' },
+      { name: 'Chest Dips', target_sets: 3, target_reps: 'failure' },
+      { name: 'Cable Fly', target_sets: 3, target_reps: '12' },
+      { name: 'Push-Ups', target_sets: 2, target_reps: 'failure' },
+    ],
+  },
+  {
+    name: 'Back Day',
+    subtitle: 'Bro Split · 5-day split',
+    emoji: '\u{1FAC2}',
+    weekday: null,
+    exercises: [
+      { name: 'Deadlift', target_sets: 3, target_reps: '5' },
+      { name: 'Pull-Ups', target_sets: 4, target_reps: 'failure' },
+      { name: 'Barbell Row', target_sets: 3, target_reps: '8' },
+      { name: 'Lat Pulldown', target_sets: 3, target_reps: '10' },
+      { name: 'Seated Cable Row', target_sets: 3, target_reps: '10' },
+    ],
+  },
+  {
+    name: 'Shoulder Day',
+    subtitle: 'Bro Split · 5-day split',
+    emoji: '\u{1FAC2}',
+    weekday: null,
+    exercises: [
+      { name: 'Overhead Press', target_sets: 4, target_reps: '8' },
+      { name: 'Dumbbell Lateral Raise', target_sets: 3, target_reps: '12' },
+      { name: 'Front Raise', target_sets: 3, target_reps: '12' },
+      { name: 'Face Pulls', target_sets: 3, target_reps: '15' },
+      { name: 'Barbell Shrugs', target_sets: 3, target_reps: '12' },
+    ],
+  },
+  {
+    name: 'Arm Day',
+    subtitle: 'Bro Split · 5-day split',
+    emoji: '\u{1FAC2}',
+    weekday: null,
+    exercises: [
+      { name: 'Barbell Curl', target_sets: 3, target_reps: '10' },
+      { name: 'Close-Grip Bench Press', target_sets: 3, target_reps: '10' },
+      { name: 'Hammer Curl', target_sets: 3, target_reps: '10' },
+      { name: 'Tricep Dips', target_sets: 3, target_reps: 'failure' },
+      { name: 'Cable Tricep Pushdown', target_sets: 3, target_reps: '12' },
+      { name: 'Preacher Curl', target_sets: 3, target_reps: '10' },
+    ],
+  },
+  {
+    name: 'Leg Day (Bro Split)',
+    subtitle: 'Bro Split · 5-day split',
+    emoji: '\u{1FAC2}',
+    weekday: null,
+    exercises: [
+      { name: 'Barbell Back Squat', target_sets: 4, target_reps: '6' },
+      { name: 'Leg Press', target_sets: 3, target_reps: '10' },
+      { name: 'Romanian Deadlift', target_sets: 3, target_reps: '8' },
+      { name: 'Leg Curl', target_sets: 3, target_reps: '10' },
+      { name: 'Leg Extension', target_sets: 3, target_reps: '10' },
+      { name: 'Standing Calf Raise', target_sets: 4, target_reps: '15' },
+    ],
+  },
+];
+
 const QUOTES = [
   { text: 'The only bad workout is the one that didn’t happen.', author: null },
   { text: 'Discipline is choosing between what you want now and what you want most.', author: 'Abraham Lincoln' },
@@ -211,14 +351,7 @@ const QUOTES = [
   { text: 'The gym is the only place where you can earn your success before you’ve had it.', author: null },
 ];
 
-function seedDays() {
-  // Templates have user_id = NULL; personal days (owned by real users) don't count here,
-  // so this stays idempotent regardless of how many users have their own days by now.
-  const existing = db.prepare('SELECT COUNT(*) AS c FROM days WHERE user_id IS NULL').get().c;
-  if (existing > 0) {
-    console.log('Template days already seeded, skipping.');
-    return;
-  }
+function insertTemplateDays(days, startOrder) {
   const insertDay = db.prepare(
     'INSERT INTO days (name, subtitle, emoji, weekday, day_order) VALUES (?, ?, ?, ?, ?)'
   );
@@ -228,8 +361,8 @@ function seedDays() {
   );
 
   const run = db.transaction(() => {
-    DAYS.forEach((day, dayIndex) => {
-      const dayInfo = insertDay.run(day.name, day.subtitle, day.emoji, day.weekday, dayIndex);
+    days.forEach((day, i) => {
+      const dayInfo = insertDay.run(day.name, day.subtitle, day.emoji, day.weekday, startOrder + i);
       day.exercises.forEach((ex, exIndex) => {
         insertExercise.run(
           dayInfo.lastInsertRowid,
@@ -244,7 +377,36 @@ function seedDays() {
     });
   });
   run();
+}
+
+function nextDayOrder() {
+  return db.prepare('SELECT COALESCE(MAX(day_order), -1) AS m FROM days WHERE user_id IS NULL').get().m + 1;
+}
+
+function seedDays() {
+  // Templates have user_id = NULL; personal days (owned by real users) don't count here,
+  // so this stays idempotent regardless of how many users have their own days by now.
+  const existing = db.prepare('SELECT COUNT(*) AS c FROM days WHERE user_id IS NULL').get().c;
+  if (existing > 0) {
+    console.log('Template days already seeded, skipping.');
+    return;
+  }
+  insertTemplateDays(DAYS, nextDayOrder());
   console.log(`Seeded ${DAYS.length} template days.`);
+}
+
+function seedMoreTemplates() {
+  // Checked by name (not just "any templates exist") so this can be added on top of an
+  // already-seeded database without duplicating or being skipped by the check above.
+  const existing = db
+    .prepare('SELECT COUNT(*) AS c FROM days WHERE user_id IS NULL AND name = ?')
+    .get('Full Body A').c;
+  if (existing > 0) {
+    console.log('Extra templates already seeded, skipping.');
+    return;
+  }
+  insertTemplateDays(MORE_DAYS, nextDayOrder());
+  console.log(`Seeded ${MORE_DAYS.length} extra template days.`);
 }
 
 function seedQuotes() {
@@ -262,5 +424,6 @@ function seedQuotes() {
 }
 
 seedDays();
+seedMoreTemplates();
 seedQuotes();
 console.log('Seed complete.');
