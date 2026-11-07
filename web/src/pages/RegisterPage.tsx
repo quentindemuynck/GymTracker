@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth, ApiError } from '../context/AuthContext'
+import { Logo } from '../components/Logo'
 
 export function RegisterPage() {
   const { register } = useAuth()
@@ -28,7 +29,9 @@ export function RegisterPage() {
   return (
     <div className="auth-screen">
       <form className="auth-card" onSubmit={onSubmit}>
-        <h1>🏋️ Gym Tracker</h1>
+        <h1>
+          <Logo size={32} /> Gym Tracker
+        </h1>
         <p className="muted">Create your account to join the split.</p>
         <label>
           Display name

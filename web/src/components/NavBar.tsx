@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { Logo } from './Logo'
 
 export function NavBar() {
   const { user, logout } = useAuth()
@@ -8,7 +9,7 @@ export function NavBar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <span className="navbar-emoji">🏋️</span> Gym Tracker
+        <Logo size={24} /> Gym Tracker
       </div>
       <div className="navbar-links">
         <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} end>
