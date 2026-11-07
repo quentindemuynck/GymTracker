@@ -15,7 +15,11 @@ import quoteRoutes from './routes/quotes.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const HOST = process.env.HOST || '0.0.0.0';
 const origins = (process.env.CORS_ORIGIN || 'http://localhost:5173').split(',').map((o) => o.trim());
+
+// Needed so secure cookies and req.secure work correctly behind an nginx (or similar) reverse proxy.
+app.set('trust proxy', 1);
 
 app.use(cors({ origin: origins, credentials: true }));
 app.use(express.json());
@@ -46,6 +50,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong on the server' });
 });
 
-app.listen(PORT, () => {
-  console.log(`GymTracker API running on http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`GymTracker API running on http://${HOST}:${PORT}`);
 });
