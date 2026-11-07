@@ -349,6 +349,90 @@ const QUOTES = [
   { text: 'Consistency over intensity.', author: null },
   { text: 'Lift heavy, recover harder.', author: null },
   { text: 'The gym is the only place where you can earn your success before you’ve had it.', author: null },
+  { text: 'No pain, no gain.', author: null },
+  { text: 'What seems impossible today will one day become your warm-up.', author: null },
+  { text: 'The only person you should try to be better than is who you were yesterday.', author: null },
+  { text: 'Motivation gets you started. Habit keeps you going.', author: 'Jim Ryun' },
+  { text: 'You don’t find willpower, you create it.', author: null },
+  { text: 'A year from now you’ll wish you had started today.', author: null },
+  { text: 'Success starts with self-discipline.', author: null },
+  { text: 'If it doesn’t challenge you, it doesn’t change you.', author: null },
+  { text: 'The groundwork for all happiness is good health.', author: 'Leigh Hunt' },
+  { text: 'Strength doesn’t come from what you can do. It comes from overcoming the things you once thought you couldn’t.', author: null },
+  { text: 'Take care of your body. It’s the only place you have to live.', author: 'Jim Rohn' },
+  { text: 'The difference between try and triumph is a little umph.', author: null },
+  { text: 'Don’t stop when you’re tired. Stop when you’re done.', author: null },
+  { text: 'Push yourself because no one else is going to do it for you.', author: null },
+  { text: 'Great things never came from comfort zones.', author: null },
+  { text: 'Wake up. Work out. Kick ass. Repeat.', author: null },
+  { text: 'A champion is defined not by their wins but by how they can recover when they fall.', author: 'Serena Williams' },
+  { text: 'It’s not about having time, it’s about making time.', author: null },
+  { text: 'Excuses don’t burn calories.', author: null },
+  { text: 'Your body can stand almost anything. It’s your mind you have to convince.', author: null },
+  { text: 'The only bad workout is the one you didn’t do.', author: null },
+  { text: 'Don’t limit your challenges, challenge your limits.', author: null },
+  { text: 'One workout at a time, one day at a time.', author: null },
+  { text: 'Results happen over time, not overnight. Work hard, stay consistent, and be patient.', author: null },
+  { text: 'You are stronger than you think.', author: null },
+  { text: 'The hardest lift is lifting your butt off the couch.', author: null },
+  { text: 'Pain is temporary. Quitting lasts forever.', author: 'Lance Armstrong' },
+  { text: 'When you feel like quitting, think about why you started.', author: null },
+  { text: 'Sore today, strong tomorrow.', author: null },
+  { text: 'Be stronger than your excuses.', author: null },
+  { text: 'Every workout counts.', author: null },
+  { text: 'You are your only limit.', author: null },
+  { text: 'The body achieves what the mind believes it can do.', author: null },
+  { text: 'Don’t count the days, make the days count.', author: 'Muhammad Ali' },
+  { text: 'Strive for progress, not perfection.', author: null },
+  { text: 'There is no substitute for hard work.', author: 'Thomas Edison' },
+  { text: 'The clock is ticking. Are you becoming the person you want to be?', author: 'Greg Plitt' },
+  { text: 'Success is the sum of small efforts repeated day in and day out.', author: 'Robert Collier' },
+  { text: 'Discipline is the bridge between goals and accomplishment.', author: 'Jim Rohn' },
+  { text: 'You didn’t come this far to only come this far.', author: null },
+  { text: 'A little progress each day adds up to big results.', author: null },
+  { text: 'The pain you feel today will be the strength you feel tomorrow.', author: null },
+  { text: 'Nothing will work unless you do.', author: 'Maya Angelou' },
+  { text: 'Train insane or remain the same.', author: null },
+  { text: 'Make your body the sexiest thing about you.', author: null },
+  { text: 'The last three or four reps is what makes the muscle grow.', author: 'Arnold Schwarzenegger' },
+  { text: 'If you want something you’ve never had, you must be willing to do something you’ve never done.', author: null },
+  { text: 'Don’t wish for it, work for it.', author: null },
+  { text: 'There’s no elevator to success, you have to take the stairs.', author: null },
+  { text: 'You never know how strong you are until being strong is your only choice.', author: 'Bob Marley' },
+  { text: 'Doubt kills more dreams than failure ever will.', author: 'Suzy Kassem' },
+  { text: 'Fitness is not about being better than someone else. It’s about being better than you used to be.', author: null },
+  { text: 'You can’t get a six-pack from wishful thinking.', author: null },
+  { text: 'Strong is the new beautiful.', author: null },
+  { text: 'Dead last finish is greater than did not finish, which trumps did not start.', author: null },
+  { text: 'It’s going to be a journey. It’s not a sprint to get in shape.', author: 'Jillian Michaels' },
+  { text: 'The weights don’t lift themselves.', author: null },
+  { text: 'Fall seven times, stand up eight.', author: null },
+  { text: 'Success usually comes to those who are too busy to be looking for it.', author: 'Henry David Thoreau' },
+  { text: 'You have to expect things of yourself before you can do them.', author: 'Michael Jordan' },
+  { text: 'Energy and persistence conquer all things.', author: 'Benjamin Franklin' },
+  { text: 'Victory is in having done your best.', author: null },
+  { text: 'Be the hardest worker in the room.', author: null },
+  { text: 'Hustle for that muscle.', author: null },
+  { text: 'Growth begins at the end of your comfort zone.', author: null },
+  { text: 'The man who moves a mountain begins by carrying away small stones.', author: 'Confucius' },
+  { text: 'You’re one workout away from a good mood.', author: null },
+  { text: 'Earn your body.', author: null },
+  { text: 'Those who think they have no time for exercise will sooner or later have to find time for illness.', author: 'Edward Stanley' },
+  { text: 'Setting goals is the first step in turning the invisible into the visible.', author: 'Tony Robbins' },
+  { text: 'I don’t count my sit-ups, I only start counting when it starts hurting.', author: 'Muhammad Ali' },
+  { text: 'Good things come to those who sweat.', author: null },
+  { text: 'Strength grows in the moments you think you can’t go on but you keep going anyway.', author: null },
+  { text: 'Nothing changes if nothing changes.', author: null },
+  { text: 'Act like a champion before you are one.', author: null },
+  { text: 'Keep your eyes on the stars and your feet on the ground.', author: 'Theodore Roosevelt' },
+  { text: 'The man on top of the mountain didn’t fall there.', author: null },
+  { text: 'Difficult roads often lead to beautiful destinations.', author: null },
+  { text: 'You miss 100% of the workouts you don’t show up for.', author: null },
+  { text: 'Short term pain for long term gain.', author: null },
+  { text: 'Be addicted to the grind, not the result.', author: null },
+  { text: 'Winners train, losers complain.', author: null },
+  { text: 'Nobody ever drowned in their own sweat.', author: null },
+  { text: 'Your health is an investment, not an expense.', author: null },
 ];
 
 function insertTemplateDays(days, startOrder) {
@@ -410,17 +494,20 @@ function seedMoreTemplates() {
 }
 
 function seedQuotes() {
-  const existing = db.prepare('SELECT COUNT(*) AS c FROM quotes').get().c;
-  if (existing > 0) {
-    console.log('Quotes already seeded, skipping.');
-    return;
-  }
-  const insert = db.prepare('INSERT INTO quotes (text, author) VALUES (?, ?)');
+  // INSERT OR IGNORE + the unique index on quotes.text means this is always safe to re-run:
+  // existing quotes are left alone, only genuinely new ones (e.g. from a future list update)
+  // get added, so the list can keep growing over time without duplicating.
+  const insert = db.prepare('INSERT OR IGNORE INTO quotes (text, author) VALUES (?, ?)');
   const run = db.transaction(() => {
-    QUOTES.forEach((q) => insert.run(q.text, q.author));
+    let added = 0;
+    QUOTES.forEach((q) => {
+      const info = insert.run(q.text, q.author);
+      if (info.changes > 0) added += 1;
+    });
+    return added;
   });
-  run();
-  console.log(`Seeded ${QUOTES.length} quotes.`);
+  const added = run();
+  console.log(added > 0 ? `Seeded ${added} new quote(s) (${QUOTES.length} total in list).` : 'Quotes already up to date.');
 }
 
 seedDays();

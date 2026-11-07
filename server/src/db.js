@@ -90,3 +90,6 @@ db.exec('CREATE INDEX IF NOT EXISTS idx_days_user ON days(user_id)');
 // exercise_notes (per-viewer notes) is obsolete now that each exercise has a single
 // owner: the owner's note just lives in exercises.cue instead.
 db.exec('DROP TABLE IF EXISTS exercise_notes');
+
+// Lets seeding use INSERT OR IGNORE to stay idempotent as the quote list grows over time.
+db.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_quotes_text ON quotes(text)');
