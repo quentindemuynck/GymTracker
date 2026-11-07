@@ -10,8 +10,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.svg'],
       manifest: {
-        name: 'GymSplit Tracker',
-        short_name: 'GymSplit',
+        name: 'Gym Tracker',
+        short_name: 'Gym Tracker',
         description: 'Shared gym split planner, logger and tracker for you and your gym buddy.',
         theme_color: '#0f1115',
         background_color: '#0f1115',

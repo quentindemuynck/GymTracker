@@ -27,7 +27,7 @@ export function LoginPage() {
   return (
     <div className="auth-screen">
       <form className="auth-card" onSubmit={onSubmit}>
-        <h1>🏋️ GymSplit</h1>
+        <h1>🏋️ Gym Tracker</h1>
         <p className="muted">Log in to your shared split.</p>
         <label>
           Username

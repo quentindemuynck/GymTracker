@@ -28,7 +28,7 @@ export function RegisterPage() {
   return (
     <div className="auth-screen">
       <form className="auth-card" onSubmit={onSubmit}>
-        <h1>🏋️ GymSplit</h1>
+        <h1>🏋️ Gym Tracker</h1>
         <p className="muted">Create your account to join the split.</p>
         <label>
           Display name

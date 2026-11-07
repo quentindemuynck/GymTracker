@@ -1,4 +1,4 @@
-# GymSplit Tracker
+# Gym Tracker
 
 A shared gym-split planner, logger and tracker — built so you and your gym buddy can
 replace the "Gymsplit SigmaBeer" notes app with something that actually tracks your weights,

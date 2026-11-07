@@ -8,7 +8,7 @@ export function NavBar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <span className="navbar-emoji">🏋️</span> GymSplit
+        <span className="navbar-emoji">🏋️</span> Gym Tracker
       </div>
       <div className="navbar-links">
         <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} end>
