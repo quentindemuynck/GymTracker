@@ -6,18 +6,19 @@ form cues and gym days, from either of your phones. Install it as a PWA.
 
 ## What it does
 
-- **Days & exercises** — your push/pull/leg split, grouped by day, each exercise with target
-  sets/reps/weight (seeded from your notes).
-- **Weight logging** — log the weight, sets, reps and a note every time you do an exercise;
-  see your last weight and your buddy's at a glance.
-- **Form cue notes** — a shared cue per exercise (e.g. "elbows tucked in") plus a personal
-  note *you* can edit for things to watch out for — your buddy can see it but not edit it,
-  and vice versa.
-- **Gym day tracker** — mark a day as done (or backfill a past date) and see a streak, a
-  weekly count and total sessions for both of you.
+- **Personal splits** — your days and exercises are your own: add/edit/delete freely, with
+  target sets/reps/weight and a form cue per exercise (e.g. "elbows tucked in").
+- **Weight logging** — log the weight, sets, reps and a note every time you do an exercise
+  in your own split.
+- **Templates** — starter splits (seeded from your original notes) that anyone can copy into
+  their own account and then customize however they want.
+- **Users tab** — browse everyone's splits and stats read-only, and copy any day or exercise
+  of theirs straight into your own split.
+- **Gym day tracker** — mark a day as done (or backfill a past date) and see your streak,
+  weekly count and total sessions.
 - **Quote of the day** — same quote for everyone, rotates daily.
-- **Shared, permissioned data** — you can both see each other's logs, notes and sessions,
-  but only edit/delete your own (enforced server-side, not just hidden in the UI).
+- **Enforced ownership** — you can see everyone's splits/logs, but can only edit, delete or
+  log against days and exercises you own (checked server-side, not just hidden in the UI).
 
 Not included yet (see "Later" below): exercise demo videos — you asked to skip these for now.
 
@@ -92,11 +93,17 @@ invite-code gate to `/api/auth/register`.
 
 ## Permissions model
 
-- Days and exercises (the split itself) are shared and editable by anyone logged in — you're
-  both expected to tune the plan together.
-- Exercise logs, personal form notes, and gym-day sessions are owned by whoever created them.
-  The API checks `user_id` on every edit/delete, so even a modified frontend request can't
-  change someone else's data — both of you can always *see* each other's, never edit it.
+- Days and their exercises belong to one user (`days.user_id`). Only the owner can edit,
+  delete, add exercises to, or log workouts against their own days — enforced in the API
+  (`user_id` checked on every write), not just hidden in the UI.
+- A day with `user_id = NULL` is a global **template** — visible to everyone, owned by no one,
+  not directly editable or loggable. New accounts start with an empty split; the Templates
+  page lets them copy a starter split (and then freely customize their copy).
+- Anyone can view anyone else's days, exercises and logs (the **Users** tab), and copy any
+  single exercise or an entire day into their own split via `POST /days/:id/copy` or
+  `POST /exercises/:id/copy`. Copying always creates new rows owned by you — the original is
+  untouched.
+- Gym-day sessions (the streak tracker) are owned by whoever logged them, same as before.
 
 ## Later / ideas
 
