@@ -1,14 +1,24 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { api } from '../api/client'
 import { useAuth } from '../context/AuthContext'
+import { ExerciseForm, type ExerciseFormValues } from './ExerciseForm'
 import type { Exercise, ExerciseLog, ExerciseNote } from '../types'
 
-export function ExerciseCard({ exercise }: { exercise: Exercise }) {
+export function ExerciseCard({
+  exercise,
+  onUpdated,
+  onDeleted,
+}: {
+  exercise: Exercise
+  onUpdated: () => void
+  onDeleted: () => void
+}) {
   const { user } = useAuth()
   const [logs, setLogs] = useState<ExerciseLog[]>([])
   const [notes, setNotes] = useState<ExerciseNote[]>([])
   const [myNoteDraft, setMyNoteDraft] = useState('')
   const [expanded, setExpanded] = useState(false)
+  const [editingExercise, setEditingExercise] = useState(false)
   const [weight, setWeight] = useState('')
   const [sets, setSets] = useState('')
   const [reps, setReps] = useState('')
@@ -62,6 +72,18 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
     refresh()
   }
 
+  async function saveExercise(payload: ExerciseFormValues) {
+    await api.put(`/exercises/${exercise.id}`, payload)
+    setEditingExercise(false)
+    onUpdated()
+  }
+
+  async function deleteExercise() {
+    if (!confirm(`Delete "${exercise.name}"? This also removes everyone's logs and notes for it.`)) return
+    await api.del(`/exercises/${exercise.id}`)
+    onDeleted()
+  }
+
   const otherNotes = notes.filter((n) => n.user_id !== user?.id)
 
   return (
@@ -90,9 +112,24 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
 
       {expanded && (
         <div className="exercise-body">
-          {exercise.cue && <p className="cue">💡 {exercise.cue}</p>}
+          {editingExercise ? (
+            <>
+              <ExerciseForm initial={exercise} onCancel={() => setEditingExercise(false)} onSave={saveExercise} />
+              <button className="link-btn danger" onClick={deleteExercise}>
+                Delete exercise
+              </button>
+            </>
+          ) : (
+            <div className="exercise-edit-toggle">
+              <button className="link-btn" onClick={() => setEditingExercise(true)}>
+                Edit exercise
+              </button>
+            </div>
+          )}
 
-          {lastOthers.length > 0 && (
+          {!editingExercise && exercise.cue && <p className="cue">💡 {exercise.cue}</p>}
+
+          {!editingExercise && lastOthers.length > 0 && (
             <div className="other-logs">
               {lastOthers.slice(0, 1).map((l) => (
                 <span key={l.id} className="chip" style={{ borderColor: l.color }}>
@@ -103,70 +140,74 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
             </div>
           )}
 
-          <form className="log-form" onSubmit={logSet}>
-            <input
-              type="number"
-              step="0.25"
-              placeholder={`weight (${exercise.weight_unit})`}
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-            />
-            <input type="number" placeholder="sets" value={sets} onChange={(e) => setSets(e.target.value)} />
-            <input type="text" placeholder="reps" value={reps} onChange={(e) => setReps(e.target.value)} />
-            <input
-              type="text"
-              placeholder="note (optional)"
-              value={logNote}
-              onChange={(e) => setLogNote(e.target.value)}
-              className="grow"
-            />
-            <button type="submit" className="primary small" disabled={saving}>
-              Log
-            </button>
-          </form>
+          {!editingExercise && (
+            <>
+              <form className="log-form" onSubmit={logSet}>
+                <input
+                  type="number"
+                  step="0.25"
+                  placeholder={`weight (${exercise.weight_unit})`}
+                  value={weight}
+                  onChange={(e) => setWeight(e.target.value)}
+                />
+                <input type="number" placeholder="sets" value={sets} onChange={(e) => setSets(e.target.value)} />
+                <input type="text" placeholder="reps" value={reps} onChange={(e) => setReps(e.target.value)} />
+                <input
+                  type="text"
+                  placeholder="note (optional)"
+                  value={logNote}
+                  onChange={(e) => setLogNote(e.target.value)}
+                  className="grow"
+                />
+                <button type="submit" className="primary small" disabled={saving}>
+                  Log
+                </button>
+              </form>
 
-          <div className="notes-section">
-            <label className="note-label">Your form notes</label>
-            <textarea
-              value={myNoteDraft}
-              onChange={(e) => setMyNoteDraft(e.target.value)}
-              placeholder="Things to watch out for with your form…"
-              rows={2}
-            />
-            <button className="link-btn" onClick={saveNote}>
-              Save note
-            </button>
+              <div className="notes-section">
+                <label className="note-label">Your form notes</label>
+                <textarea
+                  value={myNoteDraft}
+                  onChange={(e) => setMyNoteDraft(e.target.value)}
+                  placeholder="Things to watch out for with your form…"
+                  rows={2}
+                />
+                <button className="link-btn" onClick={saveNote}>
+                  Save note
+                </button>
 
-            {otherNotes.map((n) => (
-              <div className="other-note" key={n.id}>
-                <span className="dot" style={{ background: n.color }} /> <strong>{n.display_name}:</strong>{' '}
-                {n.note}
-              </div>
-            ))}
-          </div>
-
-          {logs.length > 0 && (
-            <div className="log-history">
-              <label className="note-label">Recent logs</label>
-              <ul>
-                {logs.map((l) => (
-                  <li key={l.id}>
-                    <span className="dot" style={{ background: l.color }} />
-                    <span className="log-date">{l.date}</span>
-                    <span>
-                      {l.display_name}: {l.weight ?? '—'}
-                      {l.weight_unit} · {l.sets ?? '—'}x{l.reps ?? '—'}
-                    </span>
-                    {l.note && <span className="muted log-note">“{l.note}”</span>}
-                    {l.user_id === user?.id && (
-                      <button className="link-btn danger" onClick={() => deleteLog(l.id)}>
-                        delete
-                      </button>
-                    )}
-                  </li>
+                {otherNotes.map((n) => (
+                  <div className="other-note" key={n.id}>
+                    <span className="dot" style={{ background: n.color }} /> <strong>{n.display_name}:</strong>{' '}
+                    {n.note}
+                  </div>
                 ))}
-              </ul>
-            </div>
+              </div>
+
+              {logs.length > 0 && (
+                <div className="log-history">
+                  <label className="note-label">Recent logs</label>
+                  <ul>
+                    {logs.map((l) => (
+                      <li key={l.id}>
+                        <span className="dot" style={{ background: l.color }} />
+                        <span className="log-date">{l.date}</span>
+                        <span>
+                          {l.display_name}: {l.weight ?? '—'}
+                          {l.weight_unit} · {l.sets ?? '—'}x{l.reps ?? '—'}
+                        </span>
+                        {l.note && <span className="muted log-note">“{l.note}”</span>}
+                        {l.user_id === user?.id && (
+                          <button className="link-btn danger" onClick={() => deleteLog(l.id)}>
+                            delete
+                          </button>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
