@@ -174,15 +174,16 @@ export function ExerciseCard({
 
           {!editingExercise && owned && (
             <>
-              <form className="log-form" onSubmit={logSet}>
+              <form className="log-form" onSubmit={logSet} autoComplete="off">
                 <input
                   type="number"
+                  inputMode="decimal"
                   step="0.25"
                   placeholder={`weight (${exercise.weight_unit})`}
                   value={weight}
                   onChange={(e) => setWeight(e.target.value)}
                 />
-                <input type="number" placeholder="sets" value={sets} onChange={(e) => setSets(e.target.value)} />
+                <input type="number" inputMode="numeric" placeholder="sets" value={sets} onChange={(e) => setSets(e.target.value)} />
                 <input type="text" placeholder="reps" value={reps} onChange={(e) => setReps(e.target.value)} />
                 <input
                   type="text"

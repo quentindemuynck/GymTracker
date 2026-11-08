@@ -51,7 +51,7 @@ export function TrackerPage() {
       <StatsRow users={users} />
 
       <h2 className="section-title">Log a gym day</h2>
-      <form className="session-form" onSubmit={addSession}>
+      <form className="session-form" onSubmit={addSession} autoComplete="off">
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
         <select value={dayId} onChange={(e) => setDayId(e.target.value)}>
           <option value="">Which day?</option>

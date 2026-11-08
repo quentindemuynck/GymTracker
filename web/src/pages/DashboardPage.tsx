@@ -39,7 +39,7 @@ function DayForm({
   }
 
   return (
-    <form className="entity-form" onSubmit={submit}>
+    <form className="entity-form" onSubmit={submit} autoComplete="off">
       <div className="entity-form-row">
         <input
           placeholder="emoji"
@@ -49,7 +49,9 @@ function DayForm({
           maxLength={4}
         />
         <input
-          placeholder="Day name (e.g. Push)"
+          placeholder="Day (e.g. Push)"
+          name="day-title"
+          autoComplete="off"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required

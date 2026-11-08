@@ -340,19 +340,27 @@ button.small {
 }
 .entity-form-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
+/* Row inputs size from their own basis, not the 100% width above —
+   otherwise the .grow field collapses to nothing on narrow screens. */
+.entity-form-row input {
+  width: auto;
+  flex: 1 1 70px;
+  min-width: 0;
+}
 .entity-form-row input.grow {
-  flex: 1;
+  flex: 3 1 140px;
 }
 .entity-form .emoji-input {
   width: 56px;
   text-align: center;
-  flex-shrink: 0;
+  flex: 0 0 auto;
 }
 .entity-form .unit-input {
   width: 64px;
-  flex-shrink: 0;
+  flex: 0 0 auto;
 }
 .entity-form-actions {
   display: flex;

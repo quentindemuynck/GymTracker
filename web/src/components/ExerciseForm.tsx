@@ -47,30 +47,35 @@ export function ExerciseForm({
   }
 
   return (
-    <form className="entity-form" onSubmit={submit}>
+    <form className="entity-form" onSubmit={submit} autoComplete="off">
       <input
-        placeholder="Exercise name"
+        placeholder="Exercise (e.g. Bench Press)"
+        name="exercise-title"
+        autoComplete="off"
+        autoCorrect="off"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
         autoFocus
       />
       <div className="entity-form-row">
-        <input placeholder="sets" type="number" value={sets} onChange={(e) => setSets(e.target.value)} />
+        <input placeholder="sets" type="number" inputMode="numeric" value={sets} onChange={(e) => setSets(e.target.value)} />
         <input
           placeholder="reps (e.g. 12 or failure)"
           value={reps ?? ''}
           onChange={(e) => setReps(e.target.value)}
           className="grow"
+          autoComplete="off"
         />
         <input
           placeholder="target weight"
           type="number"
+          inputMode="decimal"
           step="0.25"
           value={weight}
           onChange={(e) => setWeight(e.target.value)}
         />
-        <input placeholder="unit" value={unit} onChange={(e) => setUnit(e.target.value)} className="unit-input" />
+        <input placeholder="unit" value={unit} onChange={(e) => setUnit(e.target.value)} className="unit-input" autoComplete="off" />
       </div>
       <textarea
         placeholder="Shared form cue, visible to everyone (e.g. elbows tucked in, arch your back)"
