@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { api } from '../api/client'
 import { useAuth } from '../context/AuthContext'
 import { ExerciseForm, type ExerciseFormValues } from './ExerciseForm'
+import { cleanDecimalInput, parseDecimal } from '../lib/decimal'
 import type { Day, Exercise, ExerciseLog } from '../types'
 
 export function ExerciseCard({
@@ -47,7 +48,7 @@ export function ExerciseCard({
     setSaving(true)
     try {
       await api.post(`/exercises/${exercise.id}/logs`, {
-        weight: weight ? Number(weight) : null,
+        weight: parseDecimal(weight),
         sets: sets ? Number(sets) : null,
         reps: reps || null,
         note: logNote || null,
@@ -176,12 +177,11 @@ export function ExerciseCard({
             <>
               <form className="log-form" onSubmit={logSet} autoComplete="off">
                 <input
-                  type="number"
+                  type="text"
                   inputMode="decimal"
-                  step="0.25"
                   placeholder={`weight (${exercise.weight_unit})`}
                   value={weight}
-                  onChange={(e) => setWeight(e.target.value)}
+                  onChange={(e) => setWeight(cleanDecimalInput(e.target.value))}
                 />
                 <input type="number" inputMode="numeric" placeholder="sets" value={sets} onChange={(e) => setSets(e.target.value)} />
                 <input type="text" placeholder="reps" value={reps} onChange={(e) => setReps(e.target.value)} />

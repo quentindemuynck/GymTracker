@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { cleanDecimalInput, parseDecimal } from '../lib/decimal'
 import type { Exercise } from '../types'
 
 export interface ExerciseFormValues {
@@ -37,7 +38,7 @@ export function ExerciseForm({
         name,
         target_sets: sets ? Number(sets) : null,
         target_reps: reps || null,
-        default_weight: weight ? Number(weight) : null,
+        default_weight: parseDecimal(weight),
         weight_unit: unit || 'kg',
         cue: cue || null,
       })
@@ -69,11 +70,10 @@ export function ExerciseForm({
         />
         <input
           placeholder="target weight"
-          type="number"
+          type="text"
           inputMode="decimal"
-          step="0.25"
           value={weight}
-          onChange={(e) => setWeight(e.target.value)}
+          onChange={(e) => setWeight(cleanDecimalInput(e.target.value))}
         />
         <input placeholder="unit" value={unit} onChange={(e) => setUnit(e.target.value)} className="unit-input" autoComplete="off" />
       </div>
